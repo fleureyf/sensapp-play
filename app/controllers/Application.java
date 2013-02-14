@@ -1,6 +1,5 @@
 package controllers;
 
-import models.Sensor;
 import models.Server;
 import play.mvc.Controller;
 import play.mvc.Result;
@@ -10,9 +9,8 @@ public class Application extends Controller {
   
     public static Result index() {
     	if (Server.all().size() == 0) {
-    		Server server = new Server("testSensapp", "http://www.google.fr");
+    		Server server = new Server("http://demo.sensapp.org", 80, "Demo server");
     		server.save();
-    		new Sensor("sensorTest", server).save();
     	}
         return ok(index.render("Your new application is ready."));
     }

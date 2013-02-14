@@ -4,14 +4,15 @@
 # --- !Ups
 
 create table sensor (
-  id                        bigint not null,
+  url                       varchar(255) not null,
   name                      varchar(255),
   server_base_url           varchar(255),
-  constraint pk_sensor primary key (id))
+  constraint pk_sensor primary key (url))
 ;
 
 create table server (
   base_url                  varchar(255) not null,
+  port                      integer,
   name                      varchar(255),
   constraint pk_server primary key (base_url))
 ;

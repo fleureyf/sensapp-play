@@ -7,23 +7,17 @@ import models.Server;
 
 import org.codehaus.jackson.JsonNode;
 
-import play.libs.F.Function;
 import play.libs.F.Promise;
 import play.libs.WS;
 import play.mvc.Controller;
 import play.mvc.Result;
+import views.html.sensor_list;
 
 public class SensApp extends Controller {
 
 	public static Result sensors() {
-		updateSensorAvailable();
-		Promise<WS.Response> sensorsList = WS.url("http://demo.sensapp.org/sensapp/registry/sensors").get();
-		Promise<Result> result = sensorsList.map(new Function<WS.Response, Result>() {
-			public Result apply(WS.Response response) {
-				return ok(response.asJson()); 
-			}
-		});
-		return async(result);
+		//updateSensorAvailable();
+		return ok(sensor_list.render(Sensor.all()));
 	}
 	 
 	public static void updateSensorAvailable() {
@@ -32,8 +26,10 @@ public class SensApp extends Controller {
 			Iterator<JsonNode> sensors = promise.get().asJson().getElements();
 			while (sensors.hasNext()) {
 				JsonNode sensor = sensors.next();
-				System.out.println("Add sensor: " + sensor.getTextValue());
-				new Sensor(sensor.getTextValue()).save();
+				if (Sensor.find.byId(sensor.getTextValue()) == null) {
+					System.out.println("Add sensor: " + sensor.getTextValue());
+					new Sensor(sensor.getTextValue()).save();
+				}
 			}
 		}
 	}

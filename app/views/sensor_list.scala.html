@@ -1,7 +1,17 @@
-@(message: String)
+@(sensors: List[Sensor]) @main("Sensors") {
 
-@main("Welcome to Play 2.1") {
-    
-    @play20.welcome(message, style = "Java")
-    
+<table class="table table-striped table-bordered">
+	<thead>
+		<tr>
+			<th>Name</th>
+			<th>Location</th>
+		</tr>
+	</thead>
+	<tbody>
+	@for(sensor <- sensors) { 
+		@sensor_row(sensor) 
+	}
+	</tbody>
+</table>
+
 }

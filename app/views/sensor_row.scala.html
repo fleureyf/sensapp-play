@@ -1,0 +1,21 @@
+@(sensor: Sensor)
+
+@defining(sensor.url.replaceAll("\\.|/|:", "")) { id =>
+
+<tr>
+	<td><a href="#modal_@id" data-toggle="modal">@sensor.name</a></td>
+	<td><a href="#">@sensor.server.name</a></td>
+</tr>
+
+<div id="modal_@id" class="modal hide fade">
+	<div class="modal-header">
+		<button type="button" class="close" data-dismiss="modal"
+			aria-hidden="true">&times;</button>
+		<h3>@sensor.name</h3>
+	</div>
+	<div class="modal-body">
+		<p>TODO</p>
+	</div>
+</div>
+
+}

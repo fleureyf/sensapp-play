@@ -41,8 +41,4 @@ public class Server extends Model {
 	public static List<Server> all() {
 		return find.all();
 	}
-	
-	public static Server findByURL(String baseURL) {
-		return find.where().eq("baseURL", baseURL).findUnique();
-	}
 }

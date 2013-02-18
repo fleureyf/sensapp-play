@@ -4,10 +4,13 @@
 # --- !Ups
 
 create table sensor (
-  url                       varchar(255) not null,
+  id                        varchar(255) not null,
+  url                       varchar(255),
   name                      varchar(255),
   server_base_url           varchar(255),
-  constraint pk_sensor primary key (url))
+  description               varchar(255),
+  dataset_url               varchar(255),
+  constraint pk_sensor primary key (id))
 ;
 
 create table server (

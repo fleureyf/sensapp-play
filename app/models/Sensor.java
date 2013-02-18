@@ -1,6 +1,5 @@
 package models;
 
-import java.util.HashMap;
 import java.util.List;
 
 import javax.persistence.Entity;
@@ -16,15 +15,20 @@ public class Sensor extends Model {
 	private static final long serialVersionUID = -3004761492156995070L;
 
 	@Id 
+	public String id;
+	@Required
 	public String url;
 	@Required
 	public String name;
 	@Required @ManyToOne
 	public Server server;
+	public String description;
+	public String datasetURL;
 	
 	public static Finder<String,Sensor> find = new Finder<String,Sensor>(String.class, Sensor.class);
 	
 	public Sensor(String url) {
+		this.id = url.replaceAll("http:|/|\\.|:", "");
 		this.url = url;
 		this.name = getName(url);
 		this.server = getServer(url);
@@ -32,11 +36,17 @@ public class Sensor extends Model {
 	
 	private static Server getServer(String sensorURL) {
 		String[] baseURL = sensorURL.split(":\\d*/sensapp/registry/sensors/.*$");
-		return Server.findByURL(baseURL[0]);
+		if (baseURL == null) {
+			return null;
+		}
+		return Server.find.byId(baseURL[0]);
 	}
 
 	private static String getName(String sensorURL) {
 		String[] name = sensorURL.split(".*/sensapp/registry/sensors/");
+		if (name == null) {
+			return "Unknown";
+		}
 		return name[1];
 	}
 	
@@ -48,12 +58,7 @@ public class Sensor extends Model {
 		return find.where().eq("server", server).findList();
 	}
 	
-	
-	
-	public static Sensor findByName(String name, String server) {
-		HashMap<String,Object> map = new HashMap<String,Object>();
-		map.put("name", name);
-		map.put("server", server);
-		return find.where().allEq(map).findUnique();
+	public static Sensor findByURL(String url) {
+		return find.where().eq("url", url).findUnique();
 	}	
 }

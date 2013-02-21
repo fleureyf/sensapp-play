@@ -75,6 +75,13 @@ public class JsonData {
 		return e;
 	}
 
+	public List<Measure> getE(int from, int to) {
+		if (to > e.size()) {
+			to = e.size();
+		}
+		return e.subList(from, to);
+	}
+	
 	public void setE(List<Measure> e) {
 		this.e = e;
 	}

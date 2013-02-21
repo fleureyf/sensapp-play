@@ -14,6 +14,8 @@ import org.codehaus.jackson.map.ObjectMapper;
 
 import play.libs.F.Promise;
 import play.libs.WS;
+import play.mvc.BodyParser;
+import play.mvc.BodyParser.Json;
 import play.mvc.Controller;
 import play.mvc.Result;
 import views.html.data_table;
@@ -64,5 +66,11 @@ public class SensApp extends Controller {
 			e.printStackTrace();
 		}
 		return ok(data_table.render(data));
+	}
+	
+	@BodyParser.Of(Json.class)
+	public static Result getSensorJData(String sensorId) {
+		Promise<WS.Response> promise = WS.url(Sensor.find.byId(sensorId).datasetURL).get();
+		return ok(promise.get().asJson());
 	}
 }

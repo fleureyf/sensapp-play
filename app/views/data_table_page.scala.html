@@ -1,0 +1,12 @@
+@(data: JsonData, from: Integer, to: Integer) 
+
+@for(measure <- data.getE(from, to)) {
+	<tr>
+		<td>@(new Date((data.getBt() + measure.getT()) * 1000).toString())</td>
+		@if(measure.isNumerical()) {
+			<td>@measure.getV()</td> 
+		} else {
+			<td>@measure.getSv()</td> 
+		}
+	</tr>
+}
